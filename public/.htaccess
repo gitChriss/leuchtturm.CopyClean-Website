@@ -1,0 +1,6 @@
+RewriteEngine On
+
+# .html → .php umleiten (intern, ohne Redirect)
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.+)\.html$ $1.php [L]
