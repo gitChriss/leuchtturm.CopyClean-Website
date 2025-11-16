@@ -1,0 +1,706 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>CopyClean – Clean pasting without formatting</title>
+
+	<!-- Bootstrap 5 CSS -->
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+
+	<style>
+		:root {
+			--bs-primary:   #3ba7e1;
+			--bs-secondary: #d46a6a;
+			--bs-success:   #19b698;
+			--bs-info:      #2d3f51;
+			--bs-warning:   #f6c15c;
+			--bs-danger:    #e85a5a;
+			--bs-light:     #f8fafc;
+			--bs-dark:      #1b2732;
+		}
+
+		body {
+			font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+			background-color: #f8fafc;
+			color: #1b2732;
+			scroll-behavior: smooth;
+		}
+
+		.navbar {
+			transition: box-shadow 0.2s ease, background-color 0.2s ease;
+		}
+
+		.navbar-scrolled {
+			box-shadow: 0 0.5rem 1rem rgba(15, 23, 42, 0.08);
+			background-color: rgba(248, 250, 252, 0.98);
+			backdrop-filter: blur(10px);
+		}
+
+		main {
+			scroll-padding-top: 80px;
+		}
+
+		section {
+			padding-top: 5rem;
+			padding-bottom: 5rem;
+		}
+
+		section:first-of-type {
+			padding-top: 7rem;
+		}
+
+		.hero {
+			min-height: 100vh;
+			display: flex;
+			align-items: center;
+		}
+
+		.hero-badge {
+			font-size: 0.9rem;
+			text-transform: uppercase;
+			letter-spacing: 0.08em;
+		}
+
+		.hero-app-shot {
+			border-radius: 1.5rem;
+			border: 1px solid rgba(15, 23, 42, 0.08);
+			box-shadow: 0 1.25rem 3rem rgba(15, 23, 42, 0.08);
+			background: white;
+		}
+
+		.icon-circle {
+			width: 2.75rem;
+			height: 2.75rem;
+			border-radius: 999px;
+			display: inline-flex;
+			align-items: center;
+			justify-content: center;
+			background-color: rgba(59, 167, 225, 0.12);
+			color: #2d3f51;
+			margin-bottom: 0.75rem;
+		}
+
+		.step-number {
+			width: 2.25rem;
+			height: 2.25rem;
+			border-radius: 999px;
+			display: inline-flex;
+			align-items: center;
+			justify-content: center;
+			font-weight: 600;
+			background-color: rgba(24, 189, 152, 0.12);
+			color: #19b698;
+		}
+
+		.bg-soft-primary {
+			background-color: rgba(59, 167, 225, 0.08);
+		}
+
+		.bg-soft-dark {
+			background-color: #1b2732;
+		}
+
+		.text-soft {
+			color: #64748b;
+		}
+
+		.card {
+			border-radius: 1.25rem;
+			border: 1px solid rgba(15, 23, 42, 0.06);
+		}
+
+		.screenshot-placeholder {
+			border-radius: 1rem;
+			border: 1px dashed rgba(15, 23, 42, 0.15);
+			background: repeating-linear-gradient(
+				45deg,
+				rgba(148, 163, 184, 0.08),
+				rgba(148, 163, 184, 0.08) 10px,
+				rgba(148, 163, 184, 0.02) 10px,
+				rgba(148, 163, 184, 0.02) 20px
+			);
+		}
+
+		.faq-accordion .accordion-button {
+			font-weight: 500;
+		}
+
+		.faq-accordion .accordion-button:not(.collapsed) {
+			color: #1b2732;
+			background-color: rgba(59, 167, 225, 0.08);
+		}
+
+		.support-card {
+			border-radius: 1.5rem;
+		}
+
+		footer {
+			background-color: #0f1722;
+			color: #cbd5f5;
+		}
+
+		footer a {
+			color: #e5e7eb;
+			text-decoration: none;
+		}
+
+		footer a:hover {
+			text-decoration: underline;
+		}
+
+		@media (max-width: 991.98px) {
+			.hero {
+				padding-top: 6rem;
+			}
+		}
+	</style>
+</head>
+<body data-bs-spy="scroll" data-bs-target="#mainNav" data-bs-offset="80" tabindex="0">
+
+<nav id="mainNav" class="navbar navbar-expand-lg fixed-top navbar-light">
+	<div class="container">
+		<a class="navbar-brand fw-semibold" href="#hero">
+			<span class="text-primary">Copy</span>Clean
+		</a>
+		<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+		<div class="collapse navbar-collapse" id="navbarNav">
+			<ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+				<li class="nav-item">
+					<a class="nav-link" href="#features">Features</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="#how-it-works">How it works</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="#audience">For whom</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="#faq">FAQ</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="#support">Support</a>
+				</li>
+			</ul>
+		</div>
+	</div>
+</nav>
+
+<main>
+	<!-- Hero -->
+	<section id="hero" class="hero">
+		<div class="container">
+			<div class="row align-items-center gy-4">
+				<div class="col-lg-6">
+					<span class="badge rounded-pill bg-soft-primary text-primary hero-badge mb-3">
+						macOS menu bar app
+					</span>
+					<h1 class="display-4 fw-bold mb-3">
+						Clean pasting without formatting.
+					</h1>
+					<p class="lead text-soft mb-4">
+						CopyClean removes unnecessary formatting when you paste. You get plain, readable text in every app. No subscription. No account.
+					</p>
+					<div class="d-flex flex-wrap align-items-center gap-3 mb-4">
+						<a href="#download" class="btn btn-primary btn-lg px-4">
+							View on the App Store
+						</a>
+						<a href="#how-it-works" class="btn btn-outline-secondary px-4">
+							See how it works
+						</a>
+					</div>
+					<div class="d-flex flex-wrap gap-3 text-soft small">
+						<div class="d-flex align-items-center gap-2">
+							<span class="badge rounded-pill text-bg-light">No subscription</span>
+							<span>One time purchase. Use it right away.</span>
+						</div>
+						<div class="d-flex align-items-center gap-2">
+							<span class="badge rounded-pill text-bg-light">Local only</span>
+							<span>No cloud. No tracking.</span>
+						</div>
+					</div>
+				</div>
+				<div class="col-lg-6">
+					<div class="hero-app-shot p-4 bg-white mt-lg-0 mt-3">
+						<div class="d-flex align-items-center mb-3">
+							<div class="icon-circle me-3">
+								<span class="fw-bold">CC</span>
+							</div>
+							<div>
+								<div class="fw-semibold">CopyClean active</div>
+								<div class="small text-soft">Global shortcut and menu bar control</div>
+							</div>
+						</div>
+						<div class="border rounded-3 p-3 mb-3 bg-light">
+							<div class="d-flex justify-content-between align-items-center mb-2">
+								<span class="fw-semibold small">Settings</span>
+								<span class="badge text-bg-success">Active</span>
+							</div>
+							<ul class="list-unstyled mb-0 small text-soft">
+								<li class="mb-1">• Always paste as plain text</li>
+								<li class="mb-1">• Optional shortcut for plain paste</li>
+								<li class="mb-1">• Password fields stay protected</li>
+								<li>• No heavy background services</li>
+							</ul>
+						</div>
+						<p class="small text-soft mb-0">
+							Example view. The final design in the app may look slightly different.
+						</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<!-- Problem / Solution -->
+	<section id="problem">
+		<div class="container">
+			<div class="row justify-content-center mb-4">
+				<div class="col-lg-8 text-center">
+					<h2 class="h3 fw-bold mb-3">Formatted paste wastes time every day.</h2>
+					<p class="text-soft mb-0">
+						You copy text from emails, websites or documents. In the target you get fonts, colors and links you did not ask for. The result looks messy and you spend time cleaning it up.
+					</p>
+				</div>
+			</div>
+			<div class="row g-4">
+				<div class="col-md-6">
+					<div class="card h-100">
+						<div class="card-body">
+							<div class="icon-circle">
+								<span class="fw-bold">Before</span>
+							</div>
+							<h3 class="h5 fw-semibold mb-2">Copy with formatting.</h3>
+							<p class="text-soft mb-0">
+								Different fonts, colors and links end up in your text. In CMS editors and office documents this often leads to broken layouts and extra work.
+							</p>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-6">
+					<div class="card h-100 bg-soft-primary">
+						<div class="card-body">
+							<div class="icon-circle">
+								<span class="fw-bold">After</span>
+							</div>
+							<h3 class="h5 fw-semibold mb-2">Paste as plain text.</h3>
+							<p class="text-soft mb-0">
+								CopyClean removes formatting automatically. Your text adapts to the style of the target app. You save clicks and avoid layout problems.
+							</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<!-- Features -->
+	<section id="features">
+		<div class="container">
+			<div class="row justify-content-between align-items-end mb-4">
+				<div class="col-lg-8">
+					<h2 class="h3 fw-bold mb-2">Features you use every day.</h2>
+					<p class="text-soft mb-0">
+						CopyClean focuses on one job. Clean pasting. No bloated menus. Just the options that make your work faster.
+					</p>
+				</div>
+			</div>
+			<div class="row g-4">
+				<div class="col-md-6 col-lg-3">
+					<div class="card h-100">
+						<div class="card-body">
+							<div class="icon-circle">
+								<i class="bi bi-clipboard-x"></i>
+							</div>
+							<h3 class="h6 fw-semibold">Always plain paste</h3>
+							<p class="small text-soft mb-0">
+								Enable permanent plain text pasting if you like. You keep using your usual paste shortcut. CopyClean takes care of the rest.
+							</p>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-6 col-lg-3">
+					<div class="card h-100">
+						<div class="card-body">
+							<div class="icon-circle">
+								<i class="bi bi-command"></i>
+							</div>
+							<h3 class="h6 fw-semibold">Custom shortcut</h3>
+							<p class="small text-soft mb-0">
+								Define a global shortcut just for plain paste. Keep the default shortcut for formatted paste if you prefer.
+							</p>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-6 col-lg-3">
+					<div class="card h-100">
+						<div class="card-body">
+							<div class="icon-circle">
+								<i class="bi bi-shield-lock"></i>
+							</div>
+							<h3 class="h6 fw-semibold">Password field safety</h3>
+							<p class="small text-soft mb-0">
+								CopyClean respects sensitive input fields. Paste actions in password fields are not changed. Security stays in place.
+							</p>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-6 col-lg-3">
+					<div class="card h-100">
+						<div class="card-body">
+							<div class="icon-circle">
+								<i class="bi bi-speedometer2"></i>
+							</div>
+							<h3 class="h6 fw-semibold">Light and unobtrusive</h3>
+							<p class="small text-soft mb-0">
+								Runs as a menu bar app. Uses few resources. Start your Mac and CopyClean is ready in the background.
+							</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<!-- How it works -->
+	<section id="how-it-works" class="bg-white">
+		<div class="container">
+			<div class="row justify-content-center mb-5">
+				<div class="col-lg-8 text-center">
+					<h2 class="h3 fw-bold mb-3">How CopyClean works.</h2>
+					<p class="text-soft mb-0">
+						Set up in a few minutes. From then on you paste without unwanted formatting. Your usual workflow stays the same.
+					</p>
+				</div>
+			</div>
+			<div class="row g-4 justify-content-center">
+				<div class="col-md-4">
+					<div class="card h-100 text-center">
+						<div class="card-body">
+							<div class="step-number mb-3">1</div>
+							<h3 class="h6 fw-semibold">Install CopyClean</h3>
+							<p class="small text-soft mb-0">
+								Download CopyClean from the App Store. Launch the app. The icon appears in your menu bar.
+							</p>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-4">
+					<div class="card h-100 text-center">
+						<div class="card-body">
+							<div class="step-number mb-3">2</div>
+							<h3 class="h6 fw-semibold">Choose your mode</h3>
+							<p class="small text-soft mb-0">
+								Decide whether you want to use plain paste all the time or only through a custom shortcut.
+							</p>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-4">
+					<div class="card h-100 text-center">
+						<div class="card-body">
+							<div class="step-number mb-3">3</div>
+							<h3 class="h6 fw-semibold">Paste as usual</h3>
+							<p class="small text-soft mb-0">
+								Copy text from any source. Paste it where you need it. The content adapts cleanly to the target environment.
+							</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<!-- Audience -->
+	<section id="audience">
+		<div class="container">
+			<div class="row mb-4 align-items-end">
+				<div class="col-lg-8">
+					<h2 class="h3 fw-bold mb-2">For people who work with text.</h2>
+					<p class="text-soft mb-0">
+						CopyClean is built for people who move content between apps all the time. Especially where text will later be published or processed further.
+					</p>
+				</div>
+			</div>
+			<div class="row g-4">
+				<div class="col-md-6 col-lg-3">
+					<div class="card h-100">
+						<div class="card-body">
+							<h3 class="h6 fw-semibold mb-2">Developers</h3>
+							<p class="small text-soft mb-0">
+								Paste sample text into interfaces, tickets or documentation. Get clean copy without foreign formatting.
+							</p>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-6 col-lg-3">
+					<div class="card h-100">
+						<div class="card-body">
+							<h3 class="h6 fw-semibold mb-2">Writers and authors</h3>
+							<p class="small text-soft mb-0">
+								Work in writing tools and online editors. Paste content that adapts to the style of your target environment.
+							</p>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-6 col-lg-3">
+					<div class="card h-100">
+						<div class="card-body">
+							<h3 class="h6 fw-semibold mb-2">Office power users</h3>
+							<p class="small text-soft mb-0">
+								Build presentations, spreadsheets and reports. Avoid formatting errors caused by mixed sources.
+							</p>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-6 col-lg-3">
+					<div class="card h-100">
+						<div class="card-body">
+							<h3 class="h6 fw-semibold mb-2">Editors in CMS</h3>
+							<p class="small text-soft mb-0">
+								Paste text into CMS editors without destroying your layout. Prevent foreign formatting that breaks design and forces manual fixes.
+							</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<!-- Screenshots -->
+	<section id="screenshots" class="bg-white">
+		<div class="container">
+			<div class="row justify-content-between align-items-end mb-4">
+				<div class="col-lg-8">
+					<h2 class="h3 fw-bold mb-2">A look inside the app.</h2>
+					<p class="text-soft mb-0">
+						Show visitors what CopyClean looks like. Later you can replace these placeholders with real screenshots from your Mac.
+					</p>
+				</div>
+			</div>
+			<div class="row g-4">
+				<div class="col-md-4">
+					<div class="screenshot-placeholder ratio ratio-4x3 d-flex align-items-center justify-content-center">
+						<span class="small text-soft">Menu bar menu screenshot</span>
+					</div>
+				</div>
+				<div class="col-md-4">
+					<div class="screenshot-placeholder ratio ratio-4x3 d-flex align-items-center justify-content-center">
+						<span class="small text-soft">Settings window screenshot</span>
+					</div>
+				</div>
+				<div class="col-md-4">
+					<div class="screenshot-placeholder ratio ratio-4x3 d-flex align-items-center justify-content-center">
+						<span class="small text-soft">Before and after example</span>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<!-- FAQ -->
+	<section id="faq">
+		<div class="container">
+			<div class="row justify-content-center mb-4">
+				<div class="col-lg-8 text-center">
+					<h2 class="h3 fw-bold mb-3">Frequently asked questions.</h2>
+					<p class="text-soft mb-0">
+						Clear answers to common questions about CopyClean, plain paste and privacy.
+					</p>
+				</div>
+			</div>
+			<div class="row justify-content-center">
+				<div class="col-lg-8">
+					<div class="accordion faq-accordion" id="faqAccordion">
+						<div class="accordion-item">
+							<h2 class="accordion-header" id="faqOneHeading">
+								<button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faqOne" aria-expanded="true" aria-controls="faqOne">
+									Does CopyClean work in all apps on my Mac?
+								</button>
+							</h2>
+							<div id="faqOne" class="accordion-collapse collapse show" aria-labelledby="faqOneHeading" data-bs-parent="#faqAccordion">
+								<div class="accordion-body">
+									CopyClean works on system level. The plain paste effect is active in most apps that use the standard keyboard shortcut for pasting. Some applications use custom behaviour and may react differently.
+								</div>
+							</div>
+						</div>
+						<div class="accordion-item">
+							<h2 class="accordion-header" id="faqTwoHeading">
+								<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqTwo" aria-expanded="false" aria-controls="faqTwo">
+									Can I still paste with formatting when I need it?
+								</button>
+							</h2>
+							<div id="faqTwo" class="accordion-collapse collapse" aria-labelledby="faqTwoHeading" data-bs-parent="#faqAccordion">
+								<div class="accordion-body">
+									You can configure CopyClean so that only a custom shortcut uses plain paste. The default paste shortcut then keeps formatting. You decide which setup fits your workflow best.
+								</div>
+							</div>
+						</div>
+						<div class="accordion-item">
+							<h2 class="accordion-header" id="faqThreeHeading">
+								<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqThree" aria-expanded="false" aria-controls="faqThree">
+									Which macOS versions are supported?
+								</button>
+							</h2>
+							<div id="faqThree" class="accordion-collapse collapse" aria-labelledby="faqThreeHeading" data-bs-parent="#faqAccordion">
+								<div class="accordion-body">
+									The exact version requirement is listed on the App Store page. CopyClean is designed for current macOS releases. Very old versions are not supported long term.
+								</div>
+							</div>
+						</div>
+						<div class="accordion-item">
+							<h2 class="accordion-header" id="faqFourHeading">
+								<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqFour" aria-expanded="false" aria-controls="faqFour">
+									What happens to my clipboard data?
+								</button>
+							</h2>
+							<div id="faqFour" class="accordion-collapse collapse" aria-labelledby="faqFourHeading" data-bs-parent="#faqAccordion">
+								<div class="accordion-body">
+									CopyClean runs locally on your Mac. Clipboard contents are not sent to a server. There is no account and no tracking.
+								</div>
+							</div>
+						</div>
+						<div class="accordion-item">
+							<h2 class="accordion-header" id="faqFiveHeading">
+								<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqFive" aria-expanded="false" aria-controls="faqFive">
+									How do I uninstall CopyClean?
+								</button>
+							</h2>
+							<div id="faqFive" class="accordion-collapse collapse" aria-labelledby="faqFiveHeading" data-bs-parent="#faqAccordion">
+								<div class="accordion-body">
+									Quit CopyClean. Drag the app from your Applications folder to the Trash. You can optionally remove related preferences from your user directory. Detailed steps are available in the help section inside the app.
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<!-- Support -->
+	<section id="support" class="bg-white">
+		<div class="container">
+			<div class="row justify-content-center mb-4">
+				<div class="col-lg-8 text-center">
+					<h2 class="h3 fw-bold mb-3">Support and contact.</h2>
+					<p class="text-soft mb-0">
+						You have a question about CopyClean, found a bug or want to share an idea. Use the form and I will get back to you.
+					</p>
+				</div>
+			</div>
+			<div class="row justify-content-center">
+				<div class="col-lg-8">
+					<div class="card support-card shadow-sm">
+						<div class="card-body p-4 p-md-5">
+							<form>
+								<div class="row g-3 mb-3">
+									<div class="col-md-6">
+										<label for="name" class="form-label">Name</label>
+										<input type="text" class="form-control" id="name" placeholder="Your name">
+									</div>
+									<div class="col-md-6">
+										<label for="email" class="form-label">Email</label>
+										<input type="email" class="form-control" id="email" placeholder="name@example.com">
+									</div>
+								</div>
+								<div class="mb-3">
+									<label for="subject" class="form-label">Topic</label>
+									<select class="form-select" id="subject">
+										<option selected>Please choose a topic</option>
+										<option value="bug">Bug or issue</option>
+										<option value="idea">Feature request</option>
+										<option value="question">Usage question</option>
+										<option value="other">Other</option>
+									</select>
+								</div>
+								<div class="mb-3">
+									<label for="message" class="form-label">Message</label>
+									<textarea class="form-control" id="message" rows="4" placeholder="Describe your request as clearly as possible."></textarea>
+								</div>
+								<div class="mb-3 form-check">
+									<input type="checkbox" class="form-check-input" id="logs">
+									<label class="form-check-label small text-soft" for="logs">
+										I am willing to provide log files if needed. I will send instructions in my reply.
+									</label>
+								</div>
+								<div class="d-flex flex-wrap align-items-center justify-content-between gap-3">
+									<button type="submit" class="btn btn-primary px-4">Send message</button>
+									<p class="small text-soft mb-0">
+										I usually reply within two business days.
+									</p>
+								</div>
+							</form>
+						</div>
+					</div>
+					<p class="small text-soft text-center mt-3 mb-0">
+						You can also reach me directly by email. The address will be listed in the final imprint.
+					</p>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<!-- Download CTA -->
+	<section id="download" class="bg-soft-dark text-white">
+		<div class="container">
+			<div class="row align-items-center gy-3">
+				<div class="col-lg-8">
+					<h2 class="h4 fw-bold mb-2">Ready for clean pasting.</h2>
+					<p class="mb-0 text-white-50">
+						Get CopyClean on the App Store and replace noisy formatting with clear text. Every day.
+					</p>
+				</div>
+				<div class="col-lg-4 text-lg-end">
+					<a href="#" class="btn btn-light px-4">
+						App Store link coming soon
+					</a>
+				</div>
+			</div>
+		</div>
+	</section>
+</main>
+
+<footer class="py-4">
+	<div class="container">
+		<div class="d-flex flex-column flex-md-row align-items-center justify-content-between gap-3">
+			<p class="small mb-0">
+				© <span id="year"></span> CopyClean. All rights reserved.
+			</p>
+			<div class="d-flex gap-3 small">
+				<a href="#">Imprint</a>
+				<a href="#">Privacy</a>
+				<a href="#support">Support</a>
+			</div>
+		</div>
+	</div>
+</footer>
+
+<!-- Bootstrap bundle with Popper -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+<script>
+	// Navbar shadow on scroll
+	document.addEventListener("scroll", function () {
+		const nav = document.getElementById("mainNav");
+		if (!nav) return;
+		if (window.scrollY > 10) {
+			nav.classList.add("navbar-scrolled");
+		} else {
+			nav.classList.remove("navbar-scrolled");
+		}
+	});
+
+	// Current year in footer
+	document.addEventListener("DOMContentLoaded", function () {
+		const yearSpan = document.getElementById("year");
+		if (yearSpan) {
+			yearSpan.textContent = new Date().getFullYear();
+		}
+	});
+</script>
+
+</body>
+</html>
