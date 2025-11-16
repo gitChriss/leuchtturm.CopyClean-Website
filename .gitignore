@@ -1,0 +1,25 @@
+.DS_Store
+Thumbs.db
+
+# Editor folders
+.vscode/
+.nova/
+.idea/
+*.swp
+
+# macOS
+._*
+
+# Node (future tools)
+node_modules/
+dist/
+build/
+
+# Logs
+*.log
+
+# Compiled assets
+*.map
+
+# SASS cache
+.sass-cache/
